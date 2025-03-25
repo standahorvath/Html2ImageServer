@@ -8,7 +8,8 @@ async function getBrowser() {
 
     browserInstance = await puppeteer.launch({
       headless: true,
-      args: useNoSandbox ? ['--no-sandbox', '--disable-setuid-sandbox'] : [],
+      dumpio: false,
+      args: useNoSandbox ? ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'] : [],
     });
   }
 

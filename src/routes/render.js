@@ -35,39 +35,44 @@ async function renderScreenshot(page, type, encoding) {
 router.post('/render', verifyApiToken, async (req, res) => {
   try {
     const { html, width, height, outputFormat, outputType } = validateInput(req.body);
-
+    console.log('Received request with parameters:', { html, width, height, outputFormat, outputType });
     const browser = await getBrowser();
     const page = await browser.newPage();
 
     // Default viewport size can be overridden via .env or request
     const defaultWidth = parseInt(process.env.DEFAULT_VIEWPORT_WIDTH || '800', 10);
     const defaultHeight = parseInt(process.env.DEFAULT_VIEWPORT_HEIGHT || '600', 10);
-
+    console.log('Default viewport size:', { defaultWidth, defaultHeight });
     await page.setViewport({
       width: width || defaultWidth,
       height: height || defaultHeight,
     });
-
-    await page.setContent(html, { waitUntil: 'networkidle0' });
+    
+    page.setDefaultNavigationTimeout(0);
+    page.setDefaultTimeout(0);
+    console.log('Setting page content...');
+    await page.setContent(html, { waitUntil: 'domcontentloaded', timeout: 0 });
 
     let outputBuffer;
-
+    console.log('Taking screenshot...');
 	const encoding = outputFormat === 'base64' ? 'base64' : undefined;
 	outputBuffer = await renderScreenshot(page, outputType, encoding);
     
-
+    console.log('Screenshot taken successfully.');
     await page.close();
 
     const mimeType = getMimeType(outputType);
-
+    console.log('MIME type:', mimeType);
     // Return as Base64 string if requested
     if (outputFormat === 'base64') {
       const base64 = `data:${mimeType};base64,${outputBuffer}`;
       res.setHeader('Content-Type', 'text/plain');
+      console.log('Returning Base64 image...');
       return res.send({ image: base64 });
     } else {
       // Return as binary buffer
       res.setHeader('Content-Type', mimeType);
+      console.log('Returning binary image...');
       return res.end(outputBuffer);
     }
   } catch (err) {
