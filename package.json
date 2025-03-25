@@ -1,0 +1,35 @@
+{
+  "name": "html2imageserver",
+  "version": "1.0.0",
+  "description": "Html2ImageServer is a simple Node.js application built on Express and Puppeteer, which can generate a PNG screenshot from provided HTML code.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/standahorvath/Html2ImageServer.git"
+  },
+  "keywords": [
+    "html2image",
+    "generate",
+    "html",
+    "css",
+    "image",
+    "processing"
+  ],
+  "author": "Stanislav Horváth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/standahorvath/Html2ImageServer/issues"
+  },
+  "homepage": "https://github.com/standahorvath/Html2ImageServer#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "puppeteer": "^24.4.0",
+    "zod": "^3.24.2"
+  }
+}
