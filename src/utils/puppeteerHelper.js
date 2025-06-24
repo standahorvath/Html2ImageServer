@@ -15,7 +15,7 @@ async function initPage(html, width, height) {
 	page.setDefaultNavigationTimeout(0);
 	page.setDefaultTimeout(0);
 
-	await page.setContent(html, { waitUntil: 'domcontentloaded', timeout: 0 });
+	await page.setContent(html, { waitUntil: 'networkidle0', timeout: 0 });
 
 	return page;
 }
